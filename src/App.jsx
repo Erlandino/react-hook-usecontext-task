@@ -4,8 +4,7 @@ import { useContext, createContext, useState } from "react";
 const CompData = createContext();
 
 export default function App() {
-  const [pokemon, setPokemon] = useState(false);
-
+  const [pokemon, setPokemon] = useState(null);
   useEffect(() => {
     async function apiCall(callback) {
       const fetchApi = await fetch("https://pokeapi.co/api/v2/pokemon/9/");
@@ -47,7 +46,8 @@ function Comp3() {
     <>
       <p>comp3</p>
 
-      <h1>{pokemon.name}</h1>
+      <h1>{pokemon && pokemon.name}</h1>
+
       {pokemon &&
         pokemon.stats.map(function (element, index) {
           return (
