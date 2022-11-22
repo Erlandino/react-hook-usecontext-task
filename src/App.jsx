@@ -26,7 +26,6 @@ export default function App() {
 function Comp1() {
   return (
     <>
-      <p>comp1</p>
       <Comp2 />
     </>
   );
@@ -34,18 +33,15 @@ function Comp1() {
 function Comp2() {
   return (
     <>
-      <p>comp2</p>
       <Comp3 />
     </>
   );
 }
 function Comp3() {
   const pokemon = useContext(CompData);
-  console.log(pokemon);
+
   return (
     <>
-      <p>comp3</p>
-
       <h1>{pokemon && pokemon.name}</h1>
 
       {pokemon &&
