@@ -4,7 +4,7 @@ import { useContext, createContext, useState } from "react";
 const CompData = createContext();
 
 export default function App() {
-  const [pokemon, setPokemon] = useState("");
+  const [pokemon, setPokemon] = useState(false);
 
   useEffect(() => {
     async function apiCall(callback) {
@@ -47,15 +47,17 @@ function Comp3() {
     <>
       <p>comp3</p>
 
-      {/* <h1>{pokemon.name}</h1>
-      {pokemon.stats.map(function (element) {
-        console.log(element);
-        return (
-          <div>
-            <p>{element.effort}</p>
-          </div>
-        );
-      })} */}
+      <h1>{pokemon.name}</h1>
+      {pokemon &&
+        pokemon.stats.map(function (element, index) {
+          return (
+            <div key={index}>
+              <h3>{element.stat.name}</h3>
+              <p>stat: {element.base_stat}</p>
+              <p>effort: {element.effort}</p>
+            </div>
+          );
+        })}
     </>
   );
 }
