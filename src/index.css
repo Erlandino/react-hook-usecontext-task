@@ -2,3 +2,25 @@ body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+.pokemons__stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-left: solid;
+}
+.pokemons__stats__name::first-letter {
+  text-transform: uppercase;
+}
+.pokemons__stats__value {
+  margin: 0 10px;
+}
+.pokemons {
+  border: solid;
+  display: flex;
+  justify-content: center;
+}
+.pokemons__moreInfo {
+  position: absolute;
+  left: 40%;
+  right: 40%;
+}
