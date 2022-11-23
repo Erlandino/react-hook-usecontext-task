@@ -6,7 +6,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-left: solid;
+  border-left: solid yellow;
 }
 .pokemons__stats__name::first-letter {
   text-transform: uppercase;
@@ -15,7 +15,9 @@ body {
   margin: 0 10px;
 }
 .pokemons {
-  border: solid;
+  border: solid yellow;
+  background-color: darkgreen;
+  color: white;
   display: flex;
   justify-content: center;
 }

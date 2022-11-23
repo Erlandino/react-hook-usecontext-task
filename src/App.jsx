@@ -11,14 +11,14 @@ export default function App() {
 
   // Api call, useEffect together with array dependency prevents infinite loop with fetch (memory leak).
   useEffect(() => {
-    async function apiCall(callback) {
-      const fetchApi = await fetch("https://pokeapi.co/api/v2/pokemon/9/");
+    async function apiCall(callback, adress) {
+      const fetchApi = await fetch(adress);
       const data = await fetchApi.json();
 
       callback(data);
     }
 
-    apiCall(setPokemon);
+    apiCall(setPokemon, "https://pokeapi.co/api/v2/pokemon/9/");
   }, []);
 
   return (
