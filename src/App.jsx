@@ -12,7 +12,7 @@ export default function App() {
 
   console.log(pokemonOffset);
 
-  // Api call
+  // Async function with fetch api call
   async function apiCall(callback, address) {
     const fetchApi = await fetch(address);
     const data = await fetchApi.json();
@@ -20,32 +20,42 @@ export default function App() {
     callback(data);
   }
 
+  // stores data for 20 different pokemons in an array within a state
   function pokemons(data) {
     setPokemonList((prevList) => (prevList ? [...prevList, data] : [data]));
   }
-  console.log(pokemonList);
 
-  function pokemonLinksCreator(param) {
+  // Creates the offset for the api call link
+  function apiOffset(param) {
     if (param === "+") setPokemonOffset((prevOffset) => (prevOffset === 1134 ? 0 : prevOffset + 10));
     if (param === "-") setPokemonOffset((prevOffset) => (prevOffset === 0 ? 1134 : prevOffset - 10));
   }
 
   // useEffect together with array dependency prevents infinite loop with fetch (memory leak).
   useEffect(() => {
-    apiCall(pokemonList, `https://pokeapi.co/api/v2/pokemon?limit=10&offset=${pokemonOffset}`);
+    // calls apiCall function and gets delivered the data trough a callback function
+    // createPokemonList is then called with the data
+    apiCall(createPokemonList, `https://pokeapi.co/api/v2/pokemon?limit=10&offset=${pokemonOffset}`);
 
-    function pokemonList(data) {
+    // takes in pokemon list and re-calls with a different link recived from previous call
+    function createPokemonList(data) {
       data.results.forEach((element) => {
         apiCall(pokemons, element.url);
       });
     }
+    // useEffect will run together with the rest of the file whenever pokemonOffset has changed value
   }, [pokemonOffset]);
 
   return (
     <div>
-      <button onClick={() => pokemonLinksCreator("-")}>Previous page</button>
-      <button onClick={() => pokemonLinksCreator("+")}>Next page</button>
+      {/* buttons to change offset */}
+      <button onClick={() => apiOffset("-")}>Previous page</button>
+      <button onClick={() => apiOffset("+")}>Next page</button>
 
+      {/* 
+      loops trough pokemon array and creates new jsx elements every loop 
+      ternary is also in place to make sure it only runs when we have received the data from the api   
+      */}
       {pokemonList && pokemonList.length >= 20
         ? pokemonList.map((pokemon) => {
             return (
@@ -60,7 +70,7 @@ export default function App() {
     </div>
   );
 }
-// <Comp2 />
+
 //  Component 2
 function Comp2() {
   return (
@@ -82,18 +92,17 @@ function Comp3() {
 // Component 4
 // deeply nested to app trough component 2 and 3
 function Comp4() {
+  // takes in the data sent with usecontext and stores it in const pokemon
   const pokemonArray = useContext(CompData);
   const pokemon = pokemonArray[0];
 
   return (
     <section>
       <div className="pokemons">
-        {/* only displays when pokemon is true/not empty */}
         <h1>{pokemon.name.toUpperCase()}</h1>
         <img src={pokemon.sprites.front_default} alt="" />
         {/*
-    Only loops trough pokemon with map when pokemon is "true"/not empty
-    map loop function creates new html elements for each pokemon property and puts them in a container
+          map loop function creates new html elements for each pokemon property and puts them in a container
           */}
         {pokemon.stats.map(function (element, index) {
           return (
@@ -105,6 +114,7 @@ function Comp4() {
         })}
       </div>
 
+      {/* more info button for the future */}
       <button className="pokemons__moreInfo">
         Click for more info
         <br />v
